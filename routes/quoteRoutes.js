@@ -27,6 +27,8 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 })
 
+// user posts a new quote
+
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const { quote_text } = req.body;
@@ -67,7 +69,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
 });
 
 /**
- * ✅ DELETE a quote
+ * DELETE a quote
  * Route: DELETE /api/quotes/:id
  */
 router.delete('/:id', authMiddleware, async (req, res) => {

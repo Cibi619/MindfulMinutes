@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const UserRoutes = require('./routes/userRoutes')
 const quoteRoutes = require('./routes/quoteRoutes');
+const journalRoutes = require('./routes/journalRoutes')
+const BreathingExerciseRoutes = require('./routes/breathingExerciseRoutes')
+const CompletedQuoteRoutes = require('./routes/completedQuoteRoutes');
 
 const app = express();
 
@@ -13,6 +16,9 @@ app.use(cors());
 
 app.use('/api/users', UserRoutes)
 app.use('/api/quotes', quoteRoutes);
+app.use('/api/journal', journalRoutes);
+app.use('/api/breathingExercise', BreathingExerciseRoutes)
+app.use('/api/completedQuotes', CompletedQuoteRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

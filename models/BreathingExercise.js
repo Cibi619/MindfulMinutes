@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const BreathingExerciseSchema = new mongoose.Schema({
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    exercise_type: { type: String, required: true },
-    duration: { type: Number, required: true }, // In minutes
+    exercise_title: { type: String },
+    exercise_description: { type: String },
+    videoUrl: { type: String }, 
     date_completed: { type: Date, default: Date.now },
 })
 
