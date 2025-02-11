@@ -7,6 +7,8 @@ const quoteRoutes = require('./routes/quoteRoutes');
 const journalRoutes = require('./routes/journalRoutes')
 const BreathingExerciseRoutes = require('./routes/breathingExerciseRoutes')
 const CompletedQuoteRoutes = require('./routes/completedQuoteRoutes');
+const CompletedBreathingExerciseRoutes = require('./routes/completedBreathingExerciseRoutes')
+const CompletedJournalRoutes = require('./routes/completedJournalRoutes')
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use('/api/quotes', quoteRoutes);
 app.use('/api/journal', journalRoutes);
 app.use('/api/breathingExercise', BreathingExerciseRoutes)
 app.use('/api/completedQuotes', CompletedQuoteRoutes);
+app.use('/api/completedBreathingExercises', CompletedBreathingExerciseRoutes)
+app.use('/api/completedJournal', CompletedJournalRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
