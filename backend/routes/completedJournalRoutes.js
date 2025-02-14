@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const authMiddleware = require('../middleware/authmiddleware')
-const completedJournal = require('../models/completedJournal')
+const completedJournal = require('../models/CompletedJournal')
 
 // adding the completed journal
 router.post('/:id', authMiddleware, async (req, res) => {
