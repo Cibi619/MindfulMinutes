@@ -1,1 +1,135 @@
-/* You can add global styles to this file, and also import other style files */
+/* Mobile-first responsive CSS boilerplate */
+
+/* 1. Base mobile styles */
+:root {
+  /* --primary-color: #3f51b5;
+  --secondary-color: #ff4081; */
+  --text-color: #1F942B;
+  --secondary-text-color: #ffffff;
+  --background-color: #FFFBF0;
+  --secondary-background-color: #1F942B;
+  --font-family: 'Arial Rounded MT', 'Roboto', sans-serif;
+  --base-font-size: 16px;
+  --line-height: 1.5;
+  --spacing-unit: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--base-font-size);
+  line-height: var(--line-height);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+/* 2. Responsive typography */
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-unit);
+}
+
+/* 3. Layout utilities */
+.container {
+  width: 100%;
+  padding: 0 var(--spacing-unit);
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* 4. Media queries for responsive design */
+@media (min-width: 480px) {
+  :root {
+    --base-font-size: 17px;
+  }
+  
+  .container {
+    max-width: 480px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --base-font-size: 18px;
+  }
+  
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --base-font-size: 19px;
+  }
+  
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --base-font-size: 20px;
+  }
+  
+  .container {
+    max-width: 1200px;
+  }
+}
+
+/* 5. Common responsive patterns */
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: block;
+  }
+  
+  .hide-desktop {
+    display: none;
+  }
+}
