@@ -21,11 +21,11 @@ nav.navbar a {
     padding-right: 5vh;
 }
 
-button#login-btn {
+a#login-btn {
     margin-right: 4vh;
 }
 
-button.btn {
+a.btn {
     padding: 1vh;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -36,12 +36,12 @@ button.btn {
     font-weight: 600;
 }
 
-button#login-btn {
+a#login-btn {
     background-color: transparent;
     color: var(--text-color);
 }
 
-button#signup-btn {
+a#signup-btn {
     background-color: var(--secondary-background-color);
     color: var(--secondary-text-color);
 }

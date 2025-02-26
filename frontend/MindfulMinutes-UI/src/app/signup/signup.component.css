@@ -23,14 +23,17 @@ home .content {
 .buttons {
     padding: 3vh;
 }
-button#register-btn {
+a#register-btn {
     margin-right: 3vh;
     background-color: var(--secondary-background-color);
     color: var(--secondary-text-color);
 }
-button#learn-more {
+a#learn-more {
     background-color: transparent;
     color: var(--text-color);
+}
+button.already-btn {
+  border: none;
 }
 .buttons button.btn {
     padding: 1vh;
@@ -102,14 +105,14 @@ section.get-started .image {
   outline: 1px solid var(--secondary-background-color);
   box-shadow: 5px 2px 2px var(--background-color); 
 }
-.register-btns .signup-btn {
+.register-btns .signup-btn, .login-btn {
   position: relative;
   left: 30%;
   border: none;
   border-radius: 25px;
   background-color: var(--secondary-background-color);
   color: var(--secondary-text-color);
-  padding: .5vh 2vh;
+  padding: 0vh 2vh .5vh 2vh;
   top: 1vh;
   outline: 1px solid var(--secondary-background-color);
   box-shadow: 5px 2px 2px var(--background-color); 

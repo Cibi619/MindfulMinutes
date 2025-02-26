@@ -1,0 +1,57 @@
+.sidenav-container {
+    min-height: 100vh;
+    width: 20vw;
+    box-sizing: border-box;
+    border-right: 1px solid #C0985C;
+    /* padding: 1vh 1vh; */
+    position: relative;
+}
+.sidenav-container h3 {
+    text-align: center;
+}
+.streak-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #C0985C;
+    position: relative;
+    left: 30%;
+    top: 1vh;
+    background-color: #FFFFFF;
+}
+.sidenav-container .streak-circle img {
+    position: absolute;
+    left: 35%;
+    top: 5%;
+}
+.sidenav-container .streak-circle span {
+    position: absolute;
+    left: 20%;
+    top: 45%;
+}
+h5 {
+    margin-left: 4vh;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+.section {
+    margin-top: 2vh;
+    padding: 3vh;
+}
+.active {
+    background-color: #E1D7BB;
+}
+.section .link {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-left: 3vh;
+}
+.section img {
+    width: 30px;
+    height: 30px;
+}
+.section a {
+    text-decoration: none;
+    color: var(--text-color);
+}

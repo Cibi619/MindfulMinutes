@@ -13,15 +13,15 @@
             <h1 class="animate-left">Empower Your Mind,</h1>
             <h4 class="animate-right">One Minute at a Time</h4>
             <div class="buttons animate-up">
-                <button class="btn" id="register-btn">Register</button>
-                <button class="btn" id="learn-more">Learn More</button>
+                <a href="#register-block" class="btn" id="register-btn">Register</a>
+                <a href="#about" class="btn" id="learn-more">Learn More</a>
             </div>
         </div>
         <div class="image animate-up">
             <img src="assets/homepage-img1.png" alt="homepage-img">
         </div>
     </section>
-    <section class="about" style="margin-top: 4vh;">
+    <section class="about" id="about" style="margin-top: 4vh;">
         <div class="about-content animate-left">
             <h3 style="text-align: center;">About Us</h3>
             <p>At MindfulMinutes, we provide you with tools to regain your Mental and 
@@ -37,24 +37,42 @@
             <div class="content-inner-box">
                 <h3>Get Started</h3>
                 <p>Create Your Account Now</p>
-                <form #signupForm="ngForm">
-                    <div class="form-field">
-                        <label for="name">Full Name</label>
-                        <input type="text" required #fullname="ngModel" name="name" [class.invalid]="fullname.invalid && fullname.touched" [(ngModel)]="signupUser.name">
-                    </div>
-                    <div class="form-field">
-                        <label for="email">Email</label>
-                        <input type="email" required #email="ngModel" name="email" [class.invalid]="email.invalid && email.touched" [(ngModel)]="signupUser.email">
-                    </div>
-                    <div class="form-field">
-                        <label for="password">Password</label>
-                        <input type="password" required #password="ngModel" name="password" [class.invalid]="password.invalid && password.touched" [(ngModel)]="signupUser.password">
-                    </div>
-                    <div class="register-btns">
-                        <button type="submit" class="signup-btn">Sign Up</button>
-                        <span style="display: block;">Already have an account? <a href="">Log In</a></span>
-                    </div>
-                </form>
+                <div *ngIf="!isLogin">
+                    <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+                        <div class="form-field">
+                            <label for="name">Full Name</label>
+                            <input type="text" required #fullname="ngModel" name="name" [class.invalid]="fullname.invalid && fullname.touched" [(ngModel)]="signupUser.name">
+                        </div>
+                        <div class="form-field">
+                            <label for="email">Email</label>
+                            <input type="email" required #email="ngModel" name="email" [class.invalid]="email.invalid && email.touched" [(ngModel)]="signupUser.email">
+                        </div>
+                        <div class="form-field">
+                            <label for="password">Password</label>
+                            <input type="password" required #password="ngModel" name="password" [class.invalid]="password.invalid && password.touched" [(ngModel)]="signupUser.password">
+                        </div>
+                        <div class="register-btns" id="register-block">
+                            <button type="submit" class="signup-btn">Sign Up</button>
+                            <span style="display: block;">Already have an account? <button class="already-btn" href="" (click)="toggleForm()">Log In</button></span>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="isLogin">
+                    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+                        <div class="form-field">
+                            <label for="email">Email</label>
+                            <input type="email" required #email="ngModel" name="email" [class.invalid]="email.invalid && email.touched" [(ngModel)]="signupUser.email">
+                        </div>
+                        <div class="form-field">
+                            <label for="password">Password</label>
+                            <input type="password" required #password="ngModel" name="password" [class.invalid]="password.invalid && password.touched" [(ngModel)]="signupUser.password">
+                        </div>
+                        <div class="register-btns">
+                            <button type="submit" class="login-btn">Log In</button>
+                            <span style="display: block;">Don't have an account? <button class="already-btn" (click)="toggleForm()">Sign Up</button></span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="image">
