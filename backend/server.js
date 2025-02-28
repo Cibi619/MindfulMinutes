@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const session = require('express-session');
 const UserRoutes = require('./routes/userRoutes')
 const quoteRoutes = require('./routes/quoteRoutes');
 const journalRoutes = require('./routes/journalRoutes')
@@ -15,6 +16,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 app.use('/api/users', UserRoutes)
 app.use('/api/quotes', quoteRoutes);

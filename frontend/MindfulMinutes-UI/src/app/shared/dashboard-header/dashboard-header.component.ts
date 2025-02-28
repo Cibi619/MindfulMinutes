@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -7,10 +8,15 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-header.component.css'
 })
 export class DashboardHeaderComponent {
-  userName: string = "Cibi Sharan"; // Fetch this from the backend or authentication service
+  userName: string = ""; // Fetch this from the backend or authentication service
   userInitials: string = "";
 
+  constructor(private dataService: DataService) {}
+
   ngOnInit() {
+    this.dataService.userName$.subscribe(name => {
+      this.userName = name;
+    })
     this.generateInitials();
   }
 

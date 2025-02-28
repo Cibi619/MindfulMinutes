@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -8,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class SidenavComponent {
     day_count = 5;
+    constructor(private dataService: DataService) {}
+
+    ngOnInit() {
+      this.dataService.dayCount$.subscribe(count => {
+        this.day_count = count;
+      })
+    }
 }
