@@ -18,4 +18,14 @@ export class AppService {
       map(response => response.length) // Extracting the length
     );
   }
+
+  getQuote(): Observable<any> {
+    return this.http.get('http://localhost:5000/api/quotes/');
+  }
+  getBreathingExercise(): Observable<any> {
+    return this.http.get('http://localhost:5000/api/breathingExercise/');
+  }
+  postJournal(journalData: any): Observable<any> {
+    return this.http.post('http://localhost:5000/api/journal/', journalData);
+  }
 }
