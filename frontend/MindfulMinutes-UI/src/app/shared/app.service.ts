@@ -28,4 +28,18 @@ export class AppService {
   postJournal(journalData: any): Observable<any> {
     return this.http.post('http://localhost:5000/api/journal/', journalData);
   }
+  getCompletedQuotes(user_id: string): Observable<any> {
+    return this.http.get(`http://localhost:5000/api/completedQuotes/${user_id}`);
+  }
+  getCompletedBreathingExercises(user_id: string): Observable<any> {
+    return this.http.get(`http://localhost:5000/api/completedBreathingExercises/${user_id}`);
+  }
+  markQuoteAsCompleted(user_id: string, quoteId: string, quote: string): Observable<any> {
+    return this.http.post(`http://localhost:5000/api/completedQuotes/${user_id}`, { quoteId, quote }).pipe(
+      tap(response => console.log(response, "-- Quote marked as completed")));
+  }
+  markBreathingExerciseAsCompleted(user_id: string, exercise_title: string, videoUrl: string): Observable<any> {
+    return this.http.post(`http://localhost:5000/api/completedBreathingExercises/${user_id}`, {exercise_title, videoUrl }).pipe(
+      tap(response => console.log(response, "-- Breathing exercise marked as completed")));
+  }
 }

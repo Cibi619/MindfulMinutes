@@ -6,13 +6,13 @@ const authMiddleware = require('../middleware/authmiddleware')
 // adding the completed Quote
 router.post('/:id', authMiddleware, async (req, res) => {
     try {
-        const id = req.params.id // clarification needed what to do with this id
-        const { user_id = id, quote, day_number } = req.body
+        const user_id = req.params.id // clarification needed what to do with this id
+        const { quote_id, quote } = req.body
         if (!user_id || !quote) {
             return res.status(400).json({ message: 'All fields are required' });
         }
         const completedQuote = new CompletedQuote({
-            user_id, quote, day_number: `Day-${await CompletedQuote.countDocuments({ user_id }) + 1}`
+            user_id, quote_id, quote, day_number: `Day-${await CompletedQuote.countDocuments({ user_id }) + 1}`
         })
         await completedQuote.save()
         res.status(201).json({ message: 'Quote added successfully' })

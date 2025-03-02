@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { SidenavComponent } from '../shared/sidenav/sidenav.component';
 import { DashboardHeaderComponent } from '../shared/dashboard-header/dashboard-header.component';
 import { DataService } from '../shared/data.service';
@@ -6,6 +6,7 @@ import { AppService } from '../shared/app.service';
 import { PopupComponent } from '../shared/popup/popup.component';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  quoteData: any; exerciseData: any;
   journalEntry: string = '';
   isQuote = false; isBreathingExercise =  false; isJournal = false;
   isPopupOpen = false;
@@ -21,7 +23,11 @@ export class DashboardComponent {
   popupContent!: string;
   username: string = '';
   userId: string | null = null;
-  constructor(private dataService: DataService, private appService: AppService) {
+  day_count!: number;
+  isQuoteFetched!: boolean;
+  isExerciseFetched!: boolean;
+  videoUrl!: string;
+  constructor(private dataService: DataService, private appService: AppService, private sanitizer: DomSanitizer) {
     console.log(this.userId, this.username, '--in constructor');
   }
 
@@ -33,7 +39,15 @@ export class DashboardComponent {
     this.dataService.userName$.subscribe(name => {
       this.username = name
     })
+
+    this.dataService.dayCount$.subscribe(count => {
+      this.day_count = count;
+    })
     console.log(this.userId, this.username);
+  }
+
+  getSafeUrl(videoUrl: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
   }
 
   openPopup(type: string) {
@@ -57,28 +71,118 @@ export class DashboardComponent {
   }
   apiCall?.subscribe((data: any) => {
     console.log(data.length, "--data");
-    let randIndex = Math.floor(Math.random() * data.length)
-    console.log(randIndex, "--randIndex")
-    // this.popupContent = data;
-    this.isPopupOpen = true;
+    let randIndex = Math.floor(Math.random() * data.length);
+    // this.quoteData = data;
     if (this.isQuote) {
-      this.popupTitle = 'Quote of the Day';
-      this.popupContent = data[randIndex]?.quote_text;
+      this.appService.getCompletedQuotes(this.userId!).subscribe((completedQuotes: any[]) => {
+        const completedQuoteTexts = new Set(completedQuotes.map(q => q.quote));
+        console.log(completedQuoteTexts, "--Completed Quote Texts Set");
+        // Filter out completed quotes
+        if (data.length === completedQuoteTexts.size) {
+          this.popupTitle = 'No Quotes Found';
+          this.popupContent = 'No new quotes available. Try again later!';
+          this.isPopupOpen = true;
+          this.isQuoteFetched = false;
+          return;
+        }
+
+        let selectedQuote;
+        let attempts = 0;
+        const maxAttempts = data.length * 2; // Avoid infinite loops in edge cases
+  
+        // Select a random quote
+        do {
+          let randIndex = Math.floor(Math.random() * data.length);
+          selectedQuote = data[randIndex];
+          attempts++;
+          console.log(randIndex, "--Selected Random Index Attempt:", attempts);
+        } while (completedQuoteTexts.has(selectedQuote.quote_text) && attempts < maxAttempts);
+      
+        console.log(selectedQuote, "--Final Selected Quote");
+      
+        this.isPopupOpen = true;
+        this.quoteData = selectedQuote;
+        this.popupTitle = 'Quote of the Day';
+        this.popupContent = selectedQuote?.quote_text;
+        this.isQuoteFetched = true;
+      }, error => {
+        console.error('Error fetching completed quotes:', error);
+        this.popupTitle = 'Error';
+          this.popupContent = 'Error fetching completed quotes. Please try again later.';
+          this.isPopupOpen = true;
+      });
     }
-    if (this.isBreathingExercise) {
-      this.popupTitle = data[randIndex]?.exercise_title;
-      this.popupContent = data[randIndex]?.exercise_description;
-      this.popupContent = this.popupContent.replace(/\d+\./g, '<br>$&');
-    }
+      if (this.isBreathingExercise) {
+        this.appService.getCompletedBreathingExercises(this.userId!).subscribe((completedBreathingExercises) => {
+          const maxAttempts = data.length * 2; // Avoid infinite loops in edge cases
+          const completedExerciseTitles = new Set(completedBreathingExercises.map((e: { exercise_title: any; }) => e.exercise_title));
+          console.log(completedExerciseTitles, "--Completed Exercise Titles");
+          if (data.length === completedExerciseTitles.size) {
+            this.popupTitle = 'No Exercises Found';
+            this.popupContent = 'No new exercises available. Try again later!';
+            this.isPopupOpen = true;
+            this.isExerciseFetched = false;
+            return;
+          }
+          let selectedExercise;
+          let attempts = 0;
+          
+          do {
+            let randIndex = Math.floor(Math.random() * data.length);
+            selectedExercise = data[randIndex];
+            attempts++;
+            console.log(randIndex, "--Selected Random Index Attempt:", attempts);
+          } while (completedExerciseTitles.has(selectedExercise.exercise_title) && attempts < maxAttempts);
+        
+          console.log(selectedExercise, "--Final Selected Exercise");
+
+          this.exerciseData = selectedExercise;
+          this.popupTitle = this.exerciseData?.exercise_title;
+          this.popupContent = this.exerciseData?.exercise_description;
+          this.videoUrl = this.exerciseData?.video_url;
+          this.popupContent = this.popupContent.replace(/\d+\./g, '<br>$&');
+          this.isExerciseFetched = true;
+          this.isPopupOpen = true;
+        })
+        
+      }
   }, error => {
-    console.error(error)
-  })
-    
-  }
+    console.error(error);
+  });
+}
 
   closePopup() {
+    if (this.isQuote) {
+      console.log(this.quoteData, "--quoteData")
+      if (!this.isQuoteFetched) {
+        this.isPopupOpen = false;
+        return;
+      }
+      this.appService.markQuoteAsCompleted(this.userId!, this.quoteData?._id, this.quoteData?.quote_text).subscribe({
+        next: (data) => {
+          console.log(data, "--quote marked in completed section");
+        }, error : (error) => {
+          console.error(error);
+        }
+      })
+    }
+    if (this.isBreathingExercise) {
+      if (!this.isExerciseFetched) {
+        this.isPopupOpen = false;
+        return;
+      }
+      console.log(this.exerciseData, "--exerciseData")
+      this.appService.markBreathingExerciseAsCompleted(this.userId!, this.exerciseData?.exercise_title, this.exerciseData?.videoUrl).subscribe({
+        next: (data) => {
+          console.log(data, "--exercise marked in completed section");
+        }, error : (error) => {
+          console.error(error);
+        }
+      });
+    }
     this.isPopupOpen = false;
   }
+
 
   submitJournal() {
     if (!this.journalEntry.trim()) {

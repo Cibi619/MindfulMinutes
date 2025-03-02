@@ -12,6 +12,14 @@
                     <h2 *ngIf="isJournal">Your Note for the Day</h2>
                     <h2 *ngIf="!isJournal">{{ popupTitle }}</h2>
                     <p *ngIf="!isJournal" [innerHTML]="popupContent"></p>
+                    <div *ngIf="isBreathingExercise">
+                        <!--Display video here-->
+                        <!-- <video controls width="250" muted playsinline autoplay>
+                            <source [src]="getSafeUrl(videoUrl)" type="video/mp4"/>
+                            <source [src]="getSafeUrl(videoUrl)" type="video/webm"/>
+                        </video> -->
+                        <!-- <iframe width="260" height="215" [src]="getSafeUrl('https://youtu.be/X8-auclIjsA')" title="YouTube video player" frameborder="0"></iframe> -->
+                    </div>
                     <div class="journal-area" *ngIf="isJournal">
                         <textarea placeholder="Write down anything here..." [(ngModel)]="journalEntry"></textarea>
                         <button class="submit-btn" (click)="submitJournal()">POST</button>

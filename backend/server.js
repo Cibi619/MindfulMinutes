@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(session({
-    secret: process.env.SECRET_KEY,
+    secret: process.env.SECRET_KEY || 'secret@123619',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
