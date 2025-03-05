@@ -146,6 +146,10 @@ export class DashboardComponent {
         })
         
       }
+
+      if (this.isJournal) {
+
+      }
   }, error => {
     console.error(error);
   });
@@ -190,9 +194,9 @@ export class DashboardComponent {
       return;
     }
 
-    const journalData = { entry_text: this.journalEntry };
+    const journal_content = { journal_content: this.journalEntry };
 
-    this.appService.postJournal(journalData).subscribe({
+    this.appService.postJournal(this.userId!, journal_content).subscribe({
       next: (data: any) => {
         console.log(data, "--journal data saved");
         this.journalEntry = ''

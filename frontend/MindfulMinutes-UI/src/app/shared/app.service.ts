@@ -25,8 +25,8 @@ export class AppService {
   getBreathingExercise(): Observable<any> {
     return this.http.get('http://localhost:5000/api/breathingExercise/');
   }
-  postJournal(journalData: any): Observable<any> {
-    return this.http.post('http://localhost:5000/api/journal/', journalData);
+  postJournal(user_id: string, journalData: any): Observable<any> {
+    return this.http.post(`http://localhost:5000/api/completedJournal/${user_id}`, journalData);
   }
   getCompletedQuotes(user_id: string): Observable<any> {
     return this.http.get(`http://localhost:5000/api/completedQuotes/${user_id}`);
