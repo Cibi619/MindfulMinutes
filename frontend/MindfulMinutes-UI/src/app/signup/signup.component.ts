@@ -51,7 +51,11 @@ export class SignupComponent {
             this.userName = response.username;
             this.dataService.setUserId(this.signedupUserId!);
             this.dataService.setUserName(this.userName)
-            this.appService.getDateCount(this.signedupUserId)
+            // this.appService.getDateCount(this.signedupUserId)
+            this.appService.getDateCount(this.signedupUserId).subscribe(count => {
+                this.dayCount = count;
+                this.dataService.setDayCount(this.dayCount)
+            })
             this.router.navigate(['/dashboard']); // Replace with the actual route
         }, error => {
             // Handle error
@@ -68,11 +72,11 @@ export class SignupComponent {
             this.userName = response.username;
             this.dataService.setUserId(this.signedupUserId);
             this.dataService.setUserName(this.userName)
-            this.appService.getDateCount(this.signedupUserId).subscribe(count => {
+            this.appService.getDateCount(this.signedupUserId)?.subscribe(count => {
                 this.dayCount = count;
                 this.dataService.setDayCount(this.dayCount)
             })
-            this.dataService.setDayCount(this.dayCount);
+            // this.dataService.setDayCount(this.dayCount);
             this.router.navigate(['/dashboard']); // Replace with the actual route
         }, error => {
             // Handle error

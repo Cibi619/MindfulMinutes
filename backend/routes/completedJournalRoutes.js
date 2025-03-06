@@ -29,9 +29,10 @@ router.post('/:id', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
     try {
         const id = req.params.id
-        const journals = await completedJournal.find({ user_id: id })
+        const journals = await CompletedJournal.find({ user_id: id })
         res.status(200).json(journals)
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Failed to fetch journals' })
     }
 })
