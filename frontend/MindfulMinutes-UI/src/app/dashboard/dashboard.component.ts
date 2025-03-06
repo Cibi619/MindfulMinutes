@@ -15,6 +15,10 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  quoteCompletedToday: boolean = false;
+  exerciseCompletedToday: boolean = false;
+  journalCompletedToday: boolean = false;
+
   quoteData: any; exerciseData: any;
   journalEntry: string = '';
   isQuote = false; isBreathingExercise =  false; isJournal = false;
@@ -44,20 +48,41 @@ export class DashboardComponent {
       this.day_count = count;
     })
     console.log(this.userId, this.username);
+    this.checkCompletionStatus();
   }
 
   getSafeUrl(videoUrl: string) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
   }
 
+  checkCompletionStatus() {
+    const today = new Date().getUTCDate();
+
+    // Checking if quote has been completed today
+    this.appService.getCompletedQuotes(this.userId!).subscribe((completedQuotes: any[]) => {
+      console.log(completedQuotes, "--completedQuotes")
+      this.quoteCompletedToday = completedQuotes.some((q) => new Date(q.date_completed).getUTCDate() === today);
+    });
+
+    // Checking if exercise has been completed today
+    this.appService.getCompletedBreathingExercises(this.userId!).subscribe((completedExercises: any[]) => {
+      this.exerciseCompletedToday = completedExercises.some((e) => new Date(e.date_completed).getUTCDate() === today);
+    });
+
+    // Checking if journal has been completed today
+    this.appService.getCompletedJournals(this.userId!).subscribe((completedJournals: any[]) => {
+      this.journalCompletedToday = completedJournals.some((j) => new Date(j.date_completed).getUTCDate() === today);
+    });
+  }
+
   openPopup(type: string) {
     let apiCall;
-    if (type === 'quote') {
+    if (type === 'quote' && !this.quoteCompletedToday) {
       this.isQuote = true;
       this.isBreathingExercise = false;
       this.isJournal = false;
       apiCall = this.appService.getQuote();
-  } if (type === 'exercise') {
+  } if (type === 'exercise' && !this.exerciseCompletedToday) {
       this.isQuote = false;
       this.isBreathingExercise = true;
       this.isJournal = false;
@@ -66,8 +91,21 @@ export class DashboardComponent {
       this.isQuote = false;
       this.isBreathingExercise = false;
       this.isJournal = true;
+      if (this.journalCompletedToday) {
+        this.popupTitle = 'Already Completed';
+        this.popupContent = 'You have already completed this activity today.';
+        this.isPopupOpen = true;
+        this.isJournal = false;
+        return;
+      }
       this.isPopupOpen = true;
       // apiCall = this.appService.getJournal();
+  }
+  else {
+      this.popupTitle = 'Already Completed';
+      this.popupContent = 'You have already completed this activity today.';
+      this.isPopupOpen = true;
+      return;
   }
   apiCall?.subscribe((data: any) => {
     console.log(data.length, "--data");
@@ -165,6 +203,7 @@ export class DashboardComponent {
       this.appService.markQuoteAsCompleted(this.userId!, this.quoteData?._id, this.quoteData?.quote_text).subscribe({
         next: (data) => {
           console.log(data, "--quote marked in completed section");
+          this.quoteCompletedToday = true; 
         }, error : (error) => {
           console.error(error);
         }
@@ -179,6 +218,7 @@ export class DashboardComponent {
       this.appService.markBreathingExerciseAsCompleted(this.userId!, this.exerciseData?.exercise_title, this.exerciseData?.videoUrl).subscribe({
         next: (data) => {
           console.log(data, "--exercise marked in completed section");
+          this.exerciseCompletedToday = true;
         }, error : (error) => {
           console.error(error);
         }
@@ -200,6 +240,7 @@ export class DashboardComponent {
       next: (data: any) => {
         console.log(data, "--journal data saved");
         this.journalEntry = ''
+        this.journalCompletedToday = true;
         this.closePopup();
       }, error : (err: any) => {
         console.error(err);
