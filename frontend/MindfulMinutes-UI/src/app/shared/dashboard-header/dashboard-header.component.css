@@ -3,35 +3,82 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 header {
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    min-height: 10vh;
+    padding: 10px;
+    min-height: auto;
     border-bottom: 1px solid #C0985C;
+    gap: 10px;
+    width: 90%;
 }
-.navigation-icons a {
-    margin-left: 1vh;
+
+.navigation-icons {
+    display: flex;
+    gap: 10px;
 }
+
 .search-bar input {
-    border-radius: 20px 20px;
-    padding: 1vh;
+    border-radius: 20px;
+    padding: 8px 15px;
     border: 1px solid var(--text-color);
-    background-color: transparent;   
+    background-color: transparent;
+    width: 100%;
+    max-width: 300px;
 }
+
 .search-bar input::placeholder {
     color: var(--text-color);
 }
+
 .search-bar input:focus {
     outline: none;
 }
+
 .profile-icon {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     background-color: transparent;
     border: 1px solid var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 20px;
+        min-height: 10vh;
+    }
+
+    .navigation-icons {
+        gap: 20px;
+    }
+
+    .search-bar input {
+        width: 200px;
+    }
+
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    header {
+        padding: 0 40px;
+    }
+
+    .search-bar input {
+        width: 300px;
+    }
 }

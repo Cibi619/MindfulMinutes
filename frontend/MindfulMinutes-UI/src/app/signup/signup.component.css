@@ -1,189 +1,355 @@
-/* Component specific styles */
+/* General Reset */
 * {
   background-color: var(--background-color);
   color: var(--text-color);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile-first styles */
+
+.menu-toggle {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.nav-links {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.nav-links a {
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-active {
+  display: flex;
 }
 section.home {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
 }
+
 .image img {
-    width: 300px;
-    animation-name: slideInUp;
+  width: 100%;
+  max-width: 250px;
+  animation-name: slideInUp;
+  margin-top: 15px;
 }
-home .content {
-    margin-top: 1vh;
+
+/* Tablet and Desktop styles */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-links a {
+    padding: 10px 15px;
+  }
+  
+  section.home {
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: left;
+    padding: 40px;
+  }
+
+  .image img {
+    max-width: 300px;
+    margin-top: 0;
+  }
 }
-/* .content h1 {
-    animation-name: slideInLeft;
+
+/* Content spacing */
+.home .content {
+  margin: 15px 0;
+  padding: 0 15px;
+  max-width: 600px;
 }
-.content h4 {
-    animation-name: slideInRight;
-} */
+
+/* Button responsiveness */
 .buttons {
-    padding: 3vh;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
 }
-a#register-btn {
-    margin-right: 3vh;
-    background-color: var(--secondary-background-color);
-    color: var(--secondary-text-color);
+
+@media (min-width: 768px) {
+  .buttons {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+  }
 }
+
+a#register-btn,
 a#learn-more {
-    background-color: transparent;
-    color: var(--text-color);
+  padding: 12px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  max-width: 180px;
 }
+
+a#register-btn {
+  background-color: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+}
+
+a#learn-more {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+}
+
 button.already-btn {
   border: none;
+  background: none;
+  color: var(--text-color);
+  text-decoration: underline;
+  cursor: pointer;
 }
+
+/* Button styling */
 .buttons button.btn {
-    padding: 1vh;
-    border-top-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-color: azure;
-    border: none;
-    box-shadow: 2px 2px 5px rgba(182, 179, 179, 0.904);
-    cursor: pointer;
-    font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(182, 179, 179, 0.904);
+  cursor: pointer;
+  font-weight: 600;
 }
+
+/* About section */
 section.about {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
-section .about-content {
-    margin-top: 2vh;
-    max-width: 500px;
-    margin: 0 auto;
+
+.about-content {
+  margin: 20px 0;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
-section .about-image {
-    display: flex;
-    justify-content: space-between;
+
+.about-image {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
+
 .about-image img {
-    width: 300px;
+  width: 100%;
+  max-width: 250px;
 }
+
+@media (min-width: 768px) {
+  .about-image {
+    justify-content: space-between;
+  }
+}
+
+/* Get Started Section */
 section.get-started {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  padding: 50px 10px;
+  padding: 20px;
+  text-align: center;
 }
+
 section.get-started .content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
+
 section.get-started .content .content-inner-box {
-  /* width: 80%; */
+  padding: 20px;
 }
+
 .content-inner-box h3 {
-  margin: 0;
+  margin-bottom: 20px;
+  text-align: center;
 }
+
+.register-btns {
+  text-align: center;
+  width: 100%;
+}
+
 .register-btns span {
-  font-size: .8em;
-  margin-top: .5vh;
+  font-size: 0.8em;
+  margin-top: 10px;
+  display: block;
 }
-.register-btns span a {
-  outline: none;
-}
+
 section.get-started .image {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 20px;
 }
+
+section.get-started .image img {
+  width: 100%;
+  max-width: 350px;
+}
+
+@media (min-width: 768px) {
+  section.get-started {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 50px 10px;
+  }
+
+  section.get-started .content {
+    flex: 1;
+    max-width: none;
+  }
+
+  section.get-started .image {
+    flex: 1;
+    margin-top: 0;
+  }
+}
+
+/* Form Fields */
+.form-field {
+  margin: 15px 0;
+  width: 100%;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
 .form-field input {
   width: 100%;
-  display: block;
   border-radius: 20px;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
   border: 1px solid rgb(209, 199, 199);
-  padding-left: 2vh;
+  padding: 12px 15px;
 }
+
 .form-field input:focus {
   outline: 1px solid var(--secondary-background-color);
-  box-shadow: 5px 2px 2px var(--background-color); 
+  box-shadow: 0px 0px 5px var(--background-color);
 }
-.register-btns .signup-btn, .login-btn {
-  position: relative;
-  left: 30%;
+
+/* Register Buttons */
+.register-btns .signup-btn,
+.register-btns .login-btn {
   border: none;
   border-radius: 25px;
   background-color: var(--secondary-background-color);
   color: var(--secondary-text-color);
-  padding: 0vh 2vh .5vh 2vh;
-  top: 1vh;
-  outline: 1px solid var(--secondary-background-color);
-  box-shadow: 5px 2px 2px var(--background-color); 
+  padding: 12px 20px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
 }
-/* error message styles */
+
+@media (min-width: 768px) {
+  .register-btns .signup-btn,
+  .register-btns .login-btn {
+    width: auto;
+  }
+}
+
+/* Error Message Styles */
 .invalid {
   outline: 1px solid red;
   box-shadow: 0px 0px 1px 1px red;
 }
-/* Animation keyframes */
+
+/* Animation Keyframes */
 @keyframes slideInLeft {
-    from {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
   }
-  
-  @keyframes slideInRight {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  @keyframes slideInUp {
-    from {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-  
-  /* Animation classes */
-  .animate-left {
-    animation: slideInLeft 1s ease-out;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .animate-right {
-    animation: slideInRight 1s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation Classes */
+.animate-left {
+  animation: slideInLeft 1s ease-out;
+}
+
+.animate-right {
+  animation: slideInRight 1s ease-out;
+}
+
+.animate-up {
+  animation: slideInUp 1s ease-out;
+}
+
+/* Delays for staggered animations */
+.delay-1 {
+  animation-delay: 0.3s;
+}
+
+.delay-2 {
+  animation-delay: 0.6s;
+}
+
+/* Responsive Animation Adjustments */
+@media (max-width: 768px) {
+  .animate-left,
+  .animate-right,
   .animate-up {
-    animation: slideInUp 1s ease-out;
+    animation-duration: 0.8s;
   }
-  
-  /* Delays for staggered animations */
-  .delay-1 {
-    animation-delay: 0.3s;
-  }
-  
-  .delay-2 {
-    animation-delay: 0.6s;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .animate-left,
-    .animate-right,
-    .animate-up {
-      animation-duration: 0.8s;
-    }
-  }
-  
+}

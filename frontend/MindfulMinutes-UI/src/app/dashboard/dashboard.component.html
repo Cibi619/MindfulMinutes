@@ -1,5 +1,9 @@
 <div class="container">
-    <div class="sidenav-container">
+    <div class="sidenav-container" [ngClass]="{'open': isSidenavOpen}">
+        <button class="toggle-btn" (click)="toggleSidenav()">
+            <span class="menu-icon" *ngIf="!isSidenavOpen">☰</span>
+            <span class="close-icon" *ngIf="isSidenavOpen">×</span>
+        </button>
         <app-sidenav></app-sidenav>
     </div>
     <div class="main-content">

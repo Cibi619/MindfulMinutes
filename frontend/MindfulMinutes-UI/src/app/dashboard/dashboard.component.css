@@ -122,3 +122,69 @@
 .submit-btn:hover {
     background-color: darkgreen;
 }
+
+.toggle-btn {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.menu-icon,
+.close-icon {
+    font-size: 24px;
+    color: var(--text-color);
+    transition: opacity 0.3s ease;
+}
+
+.close-icon {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Show toggle button only on mobile */
+@media (max-width: 767px) {
+    .toggle-btn {
+        display: block;
+    }
+    
+    .menu-icon,
+    .close-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .menu-icon:hover,
+    .close-icon:hover {
+        transform: scale(1.1);
+    }
+}
+
+@media (max-width: 1065px) {
+    .task-cards {
+        gap: 50px;
+    }
+    .card {
+        width: 150px;
+        height: 200px;
+        gap: 15px;
+    }
+}
+@media (max-width: 768px) {
+    .task-cards {
+        flex-direction: column;
+        top: 60%;
+        left: 50%;
+    }
+    .card {
+        width: 250px;
+        height: 150px;
+        gap: 15px;
+    }
+    .content .welcome-header {
+        margin-top: 2vh;
+    }
+}

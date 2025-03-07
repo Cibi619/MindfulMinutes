@@ -1,6 +1,9 @@
 <header class="header">
+    <button class="menu-toggle" (click)="toggleMenu()">
+        <span class="menu-icon">☰</span>
+    </button>
     <img src="assets/Logo.png" alt="Logoo" style="width: 50px;">
-    <nav class="navbar">
+    <nav class="navbar" [ngClass]="{'open': isMenuOpen}">
         <a href="#home">Home</a>
         <a href="#about">About Us</a>
         <a href="#articles">Articles</a>

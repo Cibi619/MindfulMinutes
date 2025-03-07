@@ -1,14 +1,19 @@
+/* Sidebar Styles */
 .sidenav-container {
     min-height: 100vh;
     width: 20vw;
     box-sizing: border-box;
     border-right: 1px solid #C0985C;
-    /* padding: 1vh 1vh; */
     position: relative;
+    transition: transform 0.3s ease-in-out;
 }
+
+/* Sidebar Heading */
 .sidenav-container h3 {
     text-align: center;
 }
+
+/* Streak Circle */
 .streak-circle {
     width: 100px;
     height: 100px;
@@ -19,39 +24,93 @@
     top: 1vh;
     background-color: #FFFFFF;
 }
+
 .sidenav-container .streak-circle img {
     position: absolute;
     left: 35%;
     top: 5%;
 }
+
 .sidenav-container .streak-circle span {
     position: absolute;
     left: 20%;
     top: 45%;
 }
+
+/* Sidebar Sections */
 h5 {
     margin-left: 4vh;
     margin-bottom: 3vh;
     margin-top: 2vh;
 }
+
 .section {
     margin-top: 2vh;
     padding: 3vh;
 }
+
 .active {
     background-color: #E1D7BB;
 }
+
+/* Sidebar Links */
 .section .link {
     display: flex;
     justify-content: flex-start;
     gap: 2rem;
     margin-left: 3vh;
 }
+
 .section img {
     width: 30px;
     height: 30px;
 }
+
 .section a {
     text-decoration: none;
     color: var(--text-color);
+}
+
+/* Sidebar Toggle Button */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #C0985C;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+/* ---- Responsive Sidebar for Mobile ---- */
+@media screen and (max-width: 768px) {
+    /* Show toggle button */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Hide sidebar initially */
+    .sidenav-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 250px;
+        height: 100%;
+        /* background: white; */
+        box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 999;
+        background-color: #E1D7BB;
+    }
+
+    /* When sidebar is open */
+    .sidenav-container.open {
+        transform: translateX(0);
+    }
 }

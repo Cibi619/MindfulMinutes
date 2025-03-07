@@ -4,13 +4,13 @@ import { DashboardHeaderComponent } from '../shared/dashboard-header/dashboard-h
 import { DataService } from '../shared/data.service';
 import { AppService } from '../shared/app.service';
 import { PopupComponent } from '../shared/popup/popup.component';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SidenavComponent, DashboardHeaderComponent, NgIf, FormsModule],
+  imports: [SidenavComponent, DashboardHeaderComponent, NgIf, FormsModule, NgClass],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -31,6 +31,9 @@ export class DashboardComponent {
   isQuoteFetched!: boolean;
   isExerciseFetched!: boolean;
   videoUrl!: string;
+  isSidenavOpen = false;
+  isShow = true;
+
   constructor(private dataService: DataService, private appService: AppService, private sanitizer: DomSanitizer) {
     console.log(this.userId, this.username, '--in constructor');
   }
@@ -73,6 +76,10 @@ export class DashboardComponent {
     this.appService.getCompletedJournals(this.userId!).subscribe((completedJournals: any[]) => {
       this.journalCompletedToday = completedJournals.some((j) => new Date(j.date_completed).getUTCDate() === today);
     });
+  }
+
+  toggleSidenav() {
+    this.dataService.toggleSidenav();
   }
 
   openPopup(type: string) {
