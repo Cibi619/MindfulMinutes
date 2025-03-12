@@ -89,12 +89,12 @@ export class DashboardComponent {
       this.isBreathingExercise = false;
       this.isJournal = false;
       apiCall = this.appService.getQuote();
-  } if (type === 'exercise' && !this.exerciseCompletedToday) {
+  } else if (type === 'exercise' && !this.exerciseCompletedToday) {
       this.isQuote = false;
       this.isBreathingExercise = true;
       this.isJournal = false;
       apiCall = this.appService.getBreathingExercise();
-  } if (type === 'journal') {
+  } else if (type === 'journal') {
       this.isQuote = false;
       this.isBreathingExercise = false;
       this.isJournal = true;
