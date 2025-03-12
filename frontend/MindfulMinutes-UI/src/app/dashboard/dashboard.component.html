@@ -31,21 +31,35 @@
                 </div>
             </div>
             <div class="task-cards">
-                <div class="card" id="quote_card" (click)="openPopup('quote')">
-                    <img src="assets/quote_box_icon.png" alt="quote_box_icon" width="40px" height="40px">
-                    <p>Quote Box</p>
-                    <p>Open to find your Daily Quote</p>
+                <div class="card-block">
+                    <div class="card" id="quote_card" (click)="openPopup('quote')">
+                        <img src="assets/quote_box_icon.png" alt="quote_box_icon" width="40px" height="40px">
+                        <p>Quote Box</p>
+                        <p>Open to find your Daily Quote</p>
+                    </div>
+                    <ng-container *ngIf="quoteCompletedToday">
+                        <img src="assets/greentick.png" alt="greentick" class="green-tick">
+                    </ng-container>
                 </div>
-                <ng-container></ng-container>
-                <div class="card" id="exercise_card" (click)="openPopup('exercise')">
-                    <img src="assets/exercise_box_icon.png" alt="exercise_box_icon" width="40px" height="40px">
-                    <p>Exercise of the Day</p>
-                    <p>Complete your day's task now</p>
+                <div class="card-block">
+                    <div class="card" id="exercise_card" (click)="openPopup('exercise')">
+                        <img src="assets/exercise_box_icon.png" alt="exercise_box_icon" width="40px" height="40px">
+                        <p>Exercise of the Day</p>
+                        <p>Complete your day's task now</p>
+                    </div>
+                    <ng-container *ngIf="exerciseCompletedToday">
+                        <img src="assets/greentick.png" alt="greentick" class="green-tick">
+                    </ng-container>
                 </div>
-                <div class="card" id="journal_card" (click)="openPopup('journal')">
-                    <img src="assets/journal_box_icon.png" alt="journal_box_icon" width="40px" height="40px">
-                    <p>Gratitude Note</p>
-                    <p>Write Your happy note for the Day</p>
+                <div class="card-block">
+                    <div class="card" id="journal_card" (click)="openPopup('journal')">
+                        <img src="assets/journal_box_icon.png" alt="journal_box_icon" width="40px" height="40px">
+                        <p>Gratitude Note</p>
+                        <p>Write Your happy note for the Day</p>
+                    </div>
+                    <ng-container *ngIf="journalCompletedToday">
+                        <img src="assets/greentick.png" alt="greentick" class="green-tick">
+                    </ng-container>
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ export class SignupComponent {
     userName = '';
     signupUser: Signup = { name: "", email: "", password: ""};
     isLogin: boolean = false; // Variable to toggle between signup and login forms
+    loginError = false;
     dayCount!: number;
     currentDate!: Date | null;
     lastCompletedDate!: Date | null;
@@ -39,6 +40,7 @@ export class SignupComponent {
 
     toggleForm() {
         this.isLogin = !this.isLogin; // Method to toggle the form
+        this.loginError = false;
     }
 
     onSubmit() {
@@ -113,6 +115,7 @@ export class SignupComponent {
         }, error => {
             // Handle error
             console.error('Login error', error);
+            this.loginError = true;
         });
     }
 }
