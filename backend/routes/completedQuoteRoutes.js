@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const CompletedQuote = require('../models/CompletedQuote')
 const authMiddleware = require('../middleware/authmiddleware')
 
@@ -29,6 +30,30 @@ router.get('/:id', authMiddleware, async (req, res) => {
         res.status(200).json(completedQuotes)
     } catch (err) {
         res.status(400).json({ message: 'Error fetching quotes' })
+    }
+})
+
+// delete completed quotes
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+        
+        const result = await CompletedQuote.deleteMany({ user_id: id });
+        
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'No quotes found for this user' });
+        }
+        
+        res.status(200).json({ 
+            message: 'Quotes deleted successfully',
+            deletedCount: result.deletedCount
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to delete quotes' });
     }
 })
 

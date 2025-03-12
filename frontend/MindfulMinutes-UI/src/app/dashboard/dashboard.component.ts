@@ -94,7 +94,7 @@ export class DashboardComponent {
       this.isBreathingExercise = true;
       this.isJournal = false;
       apiCall = this.appService.getBreathingExercise();
-  } else if (type === 'journal') {
+  } else if (type === 'journal' && !this.journalCompletedToday) {
       this.isQuote = false;
       this.isBreathingExercise = false;
       this.isJournal = true;
@@ -193,7 +193,7 @@ export class DashboardComponent {
       }
 
       if (this.isJournal) {
-
+        // this.isJo
       }
   }, error => {
     console.error(error);
@@ -230,6 +230,9 @@ export class DashboardComponent {
           console.error(error);
         }
       });
+    }
+    if (this.isJournal) {
+      
     }
     this.isPopupOpen = false;
   }

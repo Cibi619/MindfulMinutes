@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const authMiddleware = require('../middleware/authmiddleware')
 const CompletedBreathingExercise = require('../models/CompletedBreathingExercise')
 
@@ -35,6 +36,28 @@ router.get('/:id', authMiddleware, async (req, res) => {
         res.status(200).json(completedBreathingExercises)
     } catch (error) {
         res.status(500).json({ message: 'Failed to get completed breathing exercises' })
+    }
+})
+
+// delete all completed breathing exercises
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+            const id = req.params.id
+            if (!mongoose.isValidObjectId(id)) {
+                return res.status(400).json({ message: 'Invalid user ID' });
+            }
+
+            const result = await CompletedBreathingExercise.deleteMany({ user_id: id })
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'No exercises found for this user' });
+            }
+            
+            res.status(200).json({ 
+                message: 'Breathing Exercises deleted successfully',
+                deletedCount: result.deletedCount
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Failed to delete completed breathing exercises' })
     }
 })
 

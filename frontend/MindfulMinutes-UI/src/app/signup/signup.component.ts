@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { CustomModule } from '../custom.module';
 import { JsonPipe } from '@angular/common';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { DataService } from '../shared/data.service';
 import { AppService } from '../shared/app.service';
-import { Observable } from 'rxjs';
+import { count, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -28,8 +28,14 @@ export class SignupComponent {
     signupUser: Signup = { name: "", email: "", password: ""};
     isLogin: boolean = false; // Variable to toggle between signup and login forms
     dayCount!: number;
+    currentDate!: Date | null;
+    lastCompletedDate!: Date | null;
 
     constructor(private http: HttpClient, private router: Router, private dataService: DataService, private appService: AppService) { }
+
+    ngOnInit() {
+        this.currentDate = new Date()
+    }
 
     toggleForm() {
         this.isLogin = !this.isLogin; // Method to toggle the form
@@ -72,10 +78,36 @@ export class SignupComponent {
             this.userName = response.username;
             this.dataService.setUserId(this.signedupUserId);
             this.dataService.setUserName(this.userName)
-            this.appService.getDateCount(this.signedupUserId)?.subscribe(count => {
-                this.dayCount = count;
-                this.dataService.setDayCount(this.dayCount)
+            this.appService.getLastCompletedDate(this.signedupUserId).subscribe(day => {
+                this.lastCompletedDate = day;
+                const diffInDays = Math.floor((this.currentDate!.getTime() - this.lastCompletedDate!.getTime()) / (1000 * 60 * 60 * 24));
+                if (this.lastCompletedDate) {
+                    if (diffInDays > 1) {
+                        this.appService.deleteAllCompletedQuotes(this.signedupUserId!).subscribe({
+                            next: () => {
+                                console.log('All completed quotes deleted')
+                            }
+                        });
+                        this.appService.deleteAllCompletedBreathingExercises(this.signedupUserId!).subscribe({
+                            next: () => {
+                                console.log('All completed breathing exercises deleted')
+                            }
+                        });
+                        this.appService.deleteAllCompletedJournals(this.signedupUserId!).subscribe({
+                            next: () => {
+                                console.log('All completed journals deleted')
+                            }
+                        });
+                    }
+                    else {
+                        this.appService.getDateCount(this.signedupUserId!)?.subscribe(count => {
+                            this.dayCount = count;
+                            this.dataService.setDayCount(this.dayCount)
+                        })
+                    }
+                }
             })
+            
             // this.dataService.setDayCount(this.dayCount);
             this.router.navigate(['/dashboard']); // Replace with the actual route
         }, error => {

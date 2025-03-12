@@ -1,14 +1,22 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin, map, Observable, tap } from 'rxjs';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   // dateCount: number = 0;
-  constructor(private http: HttpClient, private router: Router) { }
+  userId: string | null = null;
+  constructor(private http: HttpClient, private router: Router, private dataService: DataService) { }
+
+  ngOnInit() {
+    this.dataService.userId$.subscribe(id => {
+      this.userId = id
+    })
+  }
 
   getDateCount(userId: string): Observable<number> {
     return forkJoin({
@@ -38,14 +46,37 @@ export class AppService {
             if (completedAllDays[i] === completedAllDays[i + 1] - 1) {
               streak++; // Continue streak if days are consecutive
             }
-            else if (completedAllDays[i] !== completedAllDays[i + 1] - 1 && i === completedAllDays.length - 2)
+            else if (completedAllDays[i] !== completedAllDays[i + 1] - 1 && i === completedAllDays.length - 2) {
               streak = 1;
+            }
             else {
               streak = 0;
             }
           }
         }
         return streak;
+      })
+    );
+  }
+
+  getLastCompletedDate(userId: string): Observable<Date | null> {
+    return forkJoin({
+      quotes: this.http.get<any[]>(`http://localhost:5000/api/completedQuotes/${userId}`),
+      breathing: this.http.get<any[]>(`http://localhost:5000/api/completedBreathingExercises/${userId}`),
+      journals: this.http.get<any[]>(`http://localhost:5000/api/completedJournal/${userId}`)
+    }).pipe(
+      map(({ quotes, breathing, journals }) => {
+        // Convert dates into day (DD) sets for fast lookup
+        const quoteDays = new Set(quotes.map(q => new Date(q.date_completed).toISOString().split('T')[0]));
+        const breathingDays = new Set(breathing.map(b => new Date(b.date_completed).toISOString().split('T')[0]));
+        const journalDays = new Set(journals.map(j => new Date(j.date_completed).toISOString().split('T')[0]));
+  
+        // Find common days where all activities are completed
+        const completedAllDays = [...quoteDays]
+          .filter(date => breathingDays.has(date) && journalDays.has(date))
+          .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()); // Sort numerically (by date)
+        
+          return completedAllDays.length > 0 ? new Date(completedAllDays[completedAllDays.length - 1]) : null;
       })
     );
   }
@@ -75,5 +106,14 @@ export class AppService {
   markBreathingExerciseAsCompleted(user_id: string, exercise_title: string, videoUrl: string): Observable<any> {
     return this.http.post(`http://localhost:5000/api/completedBreathingExercises/${user_id}`, {exercise_title, videoUrl }).pipe(
       tap(response => console.log(response, "-- Breathing exercise marked as completed")));
+  }
+  deleteAllCompletedQuotes(user_id: string): Observable<any> {
+    return this.http.delete(`http://localhost:5000/api/completedQuotes/${user_id}`);
+  }
+  deleteAllCompletedBreathingExercises(user_id: string): Observable<any> {
+    return this.http.delete(`http://localhost:5000/api/completedBreathingExercises/${user_id}`);
+  }
+  deleteAllCompletedJournals(user_id: string): Observable<any> {
+    return this.http.delete(`http://localhost:5000/api/completedJournal/${user_id}`);
   }
 }

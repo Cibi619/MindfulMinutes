@@ -48,4 +48,25 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 })
 
+// delete all completed Journals
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        const user_id = req.params.id
+        if (!mongoose.isValidObjectId(user_id)) {
+            return res.status(400).json({ message: "Invalid user ID" })
+        }
+        const result = await CompletedJournal.deleteMany({ user_id })
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'No journals found for this user' });
+        }
+        
+        res.status(200).json({ 
+            message: 'Journals deleted successfully',
+            deletedCount: result.deletedCount
+        });
+    } catch (error) {
+        console.log(error, "--error")
+    }
+})
+
 module.exports = router
