@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="sidenav-container" [ngClass]="{'open': isSidenavOpen}">
+        <button class="toggle-btn" (click)="toggleSidenav()">
+            <span class="menu-icon" *ngIf="!isSidenavOpen">☰</span>
+            <span class="close-icon" *ngIf="isSidenavOpen">×</span>
+        </button>
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="main-content">
+        <app-dashboard-header></app-dashboard-header>
+        <div class="content">
+            <ng-container *ngIf="completedDataState == 'quotes'">
+                <div class="task-cards">
+                    <div class="card" *ngFor="let quote of completedQuotesData">
+                        <span class="daynumber">{{quote.day_number}}</span>
+                        <p class="quote_text">{{quote.quote}}</p>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="completedDataState == 'exercises'">
+                <div class="list-box" *ngFor="let exercise of completedBreathingExercisesData">
+                    <span class="day_count">{{exercise.day_number}}</span>
+                    <p class="title">{{exercise.exercise_title}}</p>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="completedDataState == 'journals'">
+                <div class="list-box" *ngFor="let journal of completedJournalsData">
+                    <span class="day_count">{{journal.day_number}}</span>
+                    <p class="title">{{journal.journal_content}}</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

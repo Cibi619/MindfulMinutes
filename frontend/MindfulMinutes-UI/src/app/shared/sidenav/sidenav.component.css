@@ -59,6 +59,7 @@ h5 {
     justify-content: flex-start;
     gap: 2rem;
     margin-left: 3vh;
+    cursor: pointer;
 }
 
 .section img {
