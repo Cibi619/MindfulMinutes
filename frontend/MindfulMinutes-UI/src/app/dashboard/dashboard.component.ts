@@ -33,6 +33,7 @@ export class DashboardComponent {
   videoUrl!: string;
   isSidenavOpen = false;
   isShow = true;
+  isJournalFetched: any;
 
   constructor(private dataService: DataService, private appService: AppService, private sanitizer: DomSanitizer) {
     console.log(this.userId, this.username, '--in constructor');
@@ -95,18 +96,17 @@ export class DashboardComponent {
       this.isJournal = false;
       apiCall = this.appService.getBreathingExercise();
   } else if (type === 'journal' && !this.journalCompletedToday) {
+    if (this.journalCompletedToday) {
+      this.popupTitle = 'Already Completed';
+      this.popupContent = 'You have already completed your journal entry for today.';
+      this.isPopupOpen = true;
+      this.isJournal = false;
+      return;
+    }
       this.isQuote = false;
       this.isBreathingExercise = false;
       this.isJournal = true;
-      if (this.journalCompletedToday) {
-        this.popupTitle = 'Already Completed';
-        this.popupContent = 'You have already completed this activity today.';
-        this.isPopupOpen = true;
-        this.isJournal = false;
-        return;
-      }
       this.isPopupOpen = true;
-      // apiCall = this.appService.getJournal();
   }
   else {
       this.popupTitle = 'Already Completed';
@@ -232,7 +232,9 @@ export class DashboardComponent {
       });
     }
     if (this.isJournal) {
-      
+      if (!this.isJournalFetched) {
+        this.isPopupOpen = false;
+      }
     }
     this.isPopupOpen = false;
   }
@@ -251,6 +253,7 @@ export class DashboardComponent {
         console.log(data, "--journal data saved");
         this.journalEntry = ''
         this.journalCompletedToday = true;
+        this.isJournal = false;
         this.closePopup();
       }, error : (err: any) => {
         console.error(err);
