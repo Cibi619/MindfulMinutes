@@ -7,6 +7,7 @@ import { PopupComponent } from '../shared/popup/popup.component';
 import { NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,6 +55,15 @@ export class DashboardComponent {
     console.log(this.userId, this.username);
     this.checkCompletionStatus();
   }
+
+  celebrate() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+}
+
 
   getSafeUrl(videoUrl: string) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
@@ -217,6 +227,7 @@ export class DashboardComponent {
         next: (data) => {
           console.log(data, "--quote marked in completed section");
           this.quoteCompletedToday = true; 
+          this.celebrate();
         }, error : (error) => {
           console.error(error);
         }
@@ -232,6 +243,7 @@ export class DashboardComponent {
         next: (data) => {
           console.log(data, "--exercise marked in completed section");
           this.exerciseCompletedToday = true;
+          this.celebrate();
         }, error : (error) => {
           console.error(error);
         }
@@ -259,6 +271,7 @@ export class DashboardComponent {
         console.log(data, "--journal data saved");
         this.journalEntry = ''
         this.journalCompletedToday = true;
+        this.celebrate();
         this.isJournal = false;
         this.closePopup();
       }, error : (err: any) => {
