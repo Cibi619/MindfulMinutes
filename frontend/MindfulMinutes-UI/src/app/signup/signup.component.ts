@@ -31,6 +31,7 @@ export class SignupComponent {
     dayCount!: number;
     currentDate!: Date | null;
     lastCompletedDate!: Date | null;
+    signupError: boolean = false;
 
     constructor(private http: HttpClient, private router: Router, private dataService: DataService, private appService: AppService) { }
 
@@ -67,6 +68,7 @@ export class SignupComponent {
             this.router.navigate(['/dashboard']); // Replace with the actual route
         }, error => {
             // Handle error
+            this.signupError = true;
             console.error('Signup error', error);
         });
     }

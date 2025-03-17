@@ -45,8 +45,8 @@
                                 [class.invalid]="fullname.invalid && fullname.touched" 
                                 [(ngModel)]="signupUser.name">
                             <div *ngIf="fullname.invalid && fullname.touched" class="error-message">
-                                <div *ngIf="fullname.errors?.['required']">Full name is required</div>
-                                <div *ngIf="fullname.errors?.['minlength']">Full name must be at least 3 characters</div>
+                                <div *ngIf="fullname.errors?.['required']" class="error-message">Full name is required</div>
+                                <div *ngIf="fullname.errors?.['minlength']" class="error-message">Full name must be at least 3 characters</div>
                             </div>
                         </div>
                         <div class="form-field">
@@ -55,8 +55,8 @@
                                 [class.invalid]="email.invalid && email.touched" 
                                 [(ngModel)]="signupUser.email">
                             <div *ngIf="email.invalid && email.touched" class="error-message">
-                                <div *ngIf="email.errors?.['required']">Email is required</div>
-                                <div *ngIf="email.errors?.['pattern']">Please enter a valid Gmail address</div>
+                                <div *ngIf="email.errors?.['required']" class="error-message">Email is required</div>
+                                <div *ngIf="email.errors?.['pattern']" class="error-message">Please enter a valid Gmail address</div>
                             </div>
                         </div>
                         <div class="form-field">
@@ -65,8 +65,8 @@
                                 [class.invalid]="password.invalid && password.touched" 
                                 [(ngModel)]="signupUser.password">
                             <div *ngIf="password.invalid && password.touched" class="error-message">
-                                <div *ngIf="password.errors?.['required']">Password is required</div>
-                                <div *ngIf="password.errors?.['pattern']">
+                                <div *ngIf="password.errors?.['required']" class="error-message">Password is required</div>
+                                <div *ngIf="password.errors?.['pattern']" class="error-message">
                                     Password must contain:
                                     <ul>
                                         <li>At least 8 characters</li>
@@ -81,6 +81,9 @@
                             <button type="submit" class="signup-btn">Sign Up</button>
                             <span style="display: block;">Already have an account? <button class="already-btn" href="" (click)="toggleForm()">Log In</button></span>
                         </div>
+                        <ng-container *ngIf="signupError">
+                            <span class="error-message">Account already exists. Please Login</span>
+                        </ng-container>
                     </form>
                 </div>
                 <div *ngIf="isLogin">
