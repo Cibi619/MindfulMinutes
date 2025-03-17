@@ -201,6 +201,12 @@ export class DashboardComponent {
 }
 
   closePopup() {
+    if (this.quoteCompletedToday && this.exerciseCompletedToday && this.journalCompletedToday)
+    {
+      this.appService.getDateCount(this.userId!).subscribe(count => {
+        this.dataService.setDayCount(count)
+    })
+    }
     if (this.isQuote) {
       console.log(this.quoteData, "--quoteData")
       if (!this.isQuoteFetched) {
