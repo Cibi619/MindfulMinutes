@@ -35,6 +35,7 @@ export class DashboardComponent {
   isSidenavOpen = false;
   isShow = true;
   isJournalFetched: any;
+  isAllCompleted: boolean = false;
 
   constructor(private dataService: DataService, private appService: AppService, private sanitizer: DomSanitizer) {
     console.log(this.userId, this.username, '--in constructor');
@@ -95,6 +96,12 @@ export class DashboardComponent {
 
   openPopup(type: string) {
     let apiCall;
+    if (this.day_count >= 30) {
+      this.popupTitle = 'Already Completed';
+      this.popupContent = 'You have completed the 30-day journey. Well done!';
+      this.isPopupOpen = true;
+      return;
+    }
     if (type === 'quote' && !this.quoteCompletedToday) {
       this.isQuote = true;
       this.isBreathingExercise = false;
@@ -215,8 +222,18 @@ export class DashboardComponent {
     {
       this.appService.getDateCount(this.userId!).subscribe(count => {
         this.dataService.setDayCount(count)
+        this.day_count = count;
     })
+      if (this.day_count >= 30 && !this.isAllCompleted) {
+        this.popupTitle = 'Congratulations!';
+        this.popupContent = 'You have completed the 30-day journey. Well done!';
+        this.isPopupOpen = true;
+        this.isAllCompleted = true; // Disable all activity boxes
+        this.celebrate();
+        return;
+      }
     }
+    
     if (this.isQuote) {
       console.log(this.quoteData, "--quoteData")
       if (!this.isQuoteFetched) {

@@ -10,7 +10,7 @@
         <app-dashboard-header></app-dashboard-header>
         <div class="content">
             <h4 class="welcome-header">Welcome Back, {{ username }}</h4>
-            <div class="popup-overlay" *ngIf="isPopupOpen">
+            <div class="popup-overlay" *ngIf="isPopupOpen" [class.disabled]="isAllCompleted">
                 <div class="popup-box">
                     <span class="close-btn" (click)="closePopup()">&times;</span>
                     <h2 *ngIf="isJournal">Your Note for the Day</h2>
@@ -32,7 +32,7 @@
             </div>
             <div class="task-cards">
                 <div class="card-block">
-                    <div class="card" id="quote_card" (click)="openPopup('quote')">
+                    <div class="card" id="quote_card" (click)="openPopup('quote')" [class.disabled]="isAllCompleted">
                         <img src="assets/quote_box_icon.png" alt="quote_box_icon" width="40px" height="40px">
                         <p>Quote Box</p>
                         <p>Open to find your Daily Quote</p>
@@ -42,7 +42,7 @@
                     </ng-container>
                 </div>
                 <div class="card-block">
-                    <div class="card" id="exercise_card" (click)="openPopup('exercise')">
+                    <div class="card" id="exercise_card" (click)="openPopup('exercise')" [class.disabled]="isAllCompleted">
                         <img src="assets/exercise_box_icon.png" alt="exercise_box_icon" width="40px" height="40px">
                         <p>Exercise of the Day</p>
                         <p>Complete your day's task now</p>
@@ -52,7 +52,7 @@
                     </ng-container>
                 </div>
                 <div class="card-block">
-                    <div class="card" id="journal_card" (click)="openPopup('journal')">
+                    <div class="card" id="journal_card" (click)="openPopup('journal')" [class.disabled]="isAllCompleted">
                         <img src="assets/journal_box_icon.png" alt="journal_box_icon" width="40px" height="40px">
                         <p>Gratitude Note</p>
                         <p>Write Your happy note for the Day</p>
