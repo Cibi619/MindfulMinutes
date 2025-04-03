@@ -22,7 +22,7 @@
                             <source [src]="getSafeUrl(videoUrl)" type="video/mp4"/>
                             <source [src]="getSafeUrl(videoUrl)" type="video/webm"/>
                         </video> -->
-                        <!-- <iframe width="260" height="215" [src]="getSafeUrl('https://youtu.be/X8-auclIjsA')" title="YouTube video player" frameborder="0"></iframe> -->
+                        <!-- <iframe width="260" height="215" [src]="getSafeUrl(videoUrl)" title="YouTube video player" frameborder="0"></iframe> -->
                     </div>
                     <div class="journal-area" *ngIf="isJournal">
                         <textarea placeholder="Write down anything here..." [(ngModel)]="journalEntry"></textarea>
