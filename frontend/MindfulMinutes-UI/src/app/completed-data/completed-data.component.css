@@ -18,6 +18,8 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .toggle-btn {
@@ -32,14 +34,15 @@
 }
 
 .task-cards {
-    display: flex;
-    gap: 100px;
-    /* justify-content: space-around;
-    align-items: center; */
-    position: absolute;
-    top: 50%;
-    left: 60%;
-    transform: translate(-50%, -50%);
+    display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 4 items per row */
+        gap: 30px; /* Adjust spacing between items */
+        position: absolute;
+        top: 50%;
+        left: 65%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 1200px;
 }
 
 .card {
@@ -136,9 +139,15 @@ app-dashboard-header {
     }
 
     .task-cards {
-        flex-direction: column;
-        top: 60%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+        gap: 50px; /* Adjust spacing between items */
+        position: absolute;
+        top: 50%;
         left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 1200px;
     }
     .card {
         width: 250px;

@@ -33,7 +33,7 @@ export class AppService {
         // Find common days where all activities are completed
         const completedAllDays = [...quoteDays]
           .filter(day => breathingDays.has(day) && journalDays.has(day))
-          .sort((a, b) => a - b); // Sort numerically (by day)
+          // .sort((a, b) => a - b); // Sort numerically (by day)
   
         if (completedAllDays.length === 0) return 0; // No streak if no full days exist
   
@@ -42,16 +42,16 @@ export class AppService {
         if (completedAllDays[completedAllDays.length - 1] != Array.from(quoteDays).pop())
           streak = 0;
         else {
-          for (let i = 0; i < completedAllDays.length - 1; i++) {
-            if (completedAllDays[i] === completedAllDays[i + 1] - 1) {
+          for (let i = 0; i <= completedAllDays.length; i++) {
+            if (completedAllDays[i] === completedAllDays[i + 1] - 1 || completedAllDays[i] === completedAllDays[i + 1] + 29 || completedAllDays[i] === completedAllDays[i + 1] + 30) {
               streak++; // Continue streak if days are consecutive
             }
             else if (completedAllDays[i] !== completedAllDays[i + 1] - 1 && i === completedAllDays.length - 2) {
               streak = 1;
             }
-            else {
-              streak = 0;
-            }
+            // else {
+            //   streak = 0;
+            // }
           }
         }
         return streak;

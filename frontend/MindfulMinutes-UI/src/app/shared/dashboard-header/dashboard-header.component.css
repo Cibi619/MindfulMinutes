@@ -13,7 +13,8 @@ header {
     min-height: auto;
     border-bottom: 1px solid #C0985C;
     gap: 10px;
-    width: 90%;
+    /* width: 90%; */
+    position: sticky;
 }
 
 .navigation-icons {

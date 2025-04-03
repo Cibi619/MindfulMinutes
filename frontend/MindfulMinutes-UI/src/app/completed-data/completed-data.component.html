@@ -10,12 +10,10 @@
         <app-dashboard-header></app-dashboard-header>
         <div class="content">
             <ng-container *ngIf="completedDataState == 'quotes'">
-                <div class="task-cards">
-                    <div class="card" *ngFor="let quote of completedQuotesData">
-                        <span class="daynumber">{{quote.day_number}}</span>
-                        <p class="quote_text">{{quote.quote}}</p>
+                    <div class="list-box" *ngFor="let quote of completedQuotesData">
+                        <span class="day_count">{{quote.day_number.replace('Day-', '')}}</span>
+                        <p class="title">{{quote.quote}}</p>
                     </div>
-                </div>
             </ng-container>
             <ng-container *ngIf="completedDataState == 'exercises'">
                 <div class="list-box" *ngFor="let exercise of completedBreathingExercisesData">
