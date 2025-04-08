@@ -47,7 +47,7 @@ export class AppService {
               streak++; // Continue streak if days are consecutive
             }
             else if (completedAllDays[i] !== completedAllDays[i + 1] - 1 && i === completedAllDays.length - 2) {
-              streak = 1;
+              streak = 0;
             }
             // else {
             //   streak = 0;
