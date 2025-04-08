@@ -82,10 +82,15 @@ export class SignupComponent {
             this.userName = response.username;
             this.dataService.setUserId(this.signedupUserId);
             this.dataService.setUserName(this.userName)
+            // new change - no deletion after completion of 30 days
+            this.appService.getDateCount(this.signedupUserId!)?.subscribe(count => {
+                this.dayCount = count;
+                this.dataService.setDayCount(this.dayCount)
+            })
             this.appService.getLastCompletedDate(this.signedupUserId!)?.subscribe(day => {
                 this.lastCompletedDate = day;
                 const diffInDays = Math.floor((this.currentDate!.getTime() - this.lastCompletedDate!.getTime()) / (1000 * 60 * 60 * 24));
-                if (this.lastCompletedDate) {
+                if (this.lastCompletedDate && this.dayCount < 30) {
                     if (diffInDays > 1) {
                         this.appService.deleteAllCompletedQuotes(this.signedupUserId!).subscribe({
                             next: () => {
