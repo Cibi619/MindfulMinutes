@@ -5,7 +5,7 @@ const CompletedQuote = require('../models/CompletedQuote')
 const authMiddleware = require('../middleware/authmiddleware')
 
 // adding the completed Quote
-router.post('/:id', authMiddleware, async (req, res) => {
+router.post('/:id', async (req, res) => {
     try {
         const user_id = req.params.id // clarification needed what to do with this id
         const { quote_id, quote } = req.body
@@ -23,7 +23,7 @@ router.post('/:id', authMiddleware, async (req, res) => {
     }
 });
 
-router.get('/:id', authMiddleware, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const user_id = req.params.id
         const completedQuotes = await CompletedQuote.find({ user_id })
@@ -34,7 +34,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 })
 
 // delete completed quotes
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         if (!mongoose.isValidObjectId(id)) {

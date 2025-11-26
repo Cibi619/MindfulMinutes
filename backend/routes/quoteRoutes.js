@@ -4,7 +4,7 @@ const Quote = require('../models/Quote')
 const authMiddleware = require('../middleware/authmiddleware');
 
 // get all quotes
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const quotes = await Quote.find();
         res.json(quotes);
@@ -14,7 +14,7 @@ router.get('/', authMiddleware, async (req, res) => {
 });
 
 // get a quote by id
-router.get('/:id', authMiddleware, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const quote = await Quote.findById(id);
@@ -29,7 +29,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 
 // user posts a new quote
 
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { quote_text } = req.body;
         if (!quote_text) return res.status(400).json({ message: 'Quote text is required' });
@@ -47,7 +47,7 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 })
 
-router.put('/:id', authMiddleware, async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { quote_text, status } = req.body;
         let quote = await Quote.findById(req.params.id);
@@ -72,7 +72,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
  * DELETE a quote
  * Route: DELETE /api/quotes/:id
  */
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const quote = await Quote.findById(req.params.id);
 
