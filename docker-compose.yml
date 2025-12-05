@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: mindfulminutes-frontend
+    build:
+      context: ./frontend/MindfulMinutes-UI
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - mindful-network
+
+  backend:
+    container_name: mindfulminutes-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/mindfulminutes
+    depends_on:
+      - mongo
+    networks:
+      - mindful-network
+
+  mongo:
+    image: mongo:7
+    container_name: mindfulminutes-mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mindful-network
+
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: mindful-prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - mindful-network
+
+  grafana:
+    image: grafana/grafana:10.4.1
+    container_name: mindful-grafana
+    ports:
+      - "3003:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - mindful-network
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: mindful-node-exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - mindful-network
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: mindful-cadvisor
+    ports:
+      - "8082:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+    networks:
+      - mindful-network
+
+volumes:
+  mongo_data:
+  grafana_data:
+
+networks:
+  mindful-network:
+    driver: bridge
