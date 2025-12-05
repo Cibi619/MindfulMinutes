@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const authMiddleware = require('../middleware/authmiddleware')
 const CompletedBreathingExercise = require('../models/CompletedBreathingExercise')
 
-router.post('/:id', authMiddleware, async (req, res) => {
+router.post('/:id', async (req, res) => {
     try {
         const user_id = req.params.id
         const { exercise_title } = req.body
@@ -29,7 +29,7 @@ router.post('/:id', authMiddleware, async (req, res) => {
     }
 })
 
-router.get('/:id', authMiddleware, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id
         const completedBreathingExercises = await CompletedBreathingExercise.find({ user_id: id })
@@ -40,7 +40,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 })
 
 // delete all completed breathing exercises
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
             const id = req.params.id
             if (!mongoose.isValidObjectId(id)) {

@@ -4,7 +4,7 @@ const router = express.Router()
 const authMiddleware = require('../middleware/authmiddleware')
 
 // post a journal note
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { entry_text } = req.body;
 

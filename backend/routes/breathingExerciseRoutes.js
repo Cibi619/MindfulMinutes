@@ -27,7 +27,7 @@ router.get("/random", async (req, res) => {
 });
 
 // post new breathing exercise - not for users
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const { exercise_title, exercise_description, videoUrl } = req.body;
         
@@ -44,7 +44,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 })
 
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const exercise = await BreathingExercise.findByIdAndDelete(id);

@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/authmiddleware')
 const CompletedJournal = require('../models/CompletedJournal')
 
 // adding the completed journal
-router.post('/:id', authMiddleware, async (req, res) => {
+router.post('/:id', async (req, res) => {
     try {
         const user_id = req.params.id
         const { journal_content } = req.body
@@ -32,7 +32,7 @@ router.post('/:id', authMiddleware, async (req, res) => {
     }
 })
 
-router.get('/:id', authMiddleware, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const user_id = req.params.id
         
@@ -49,7 +49,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 })
 
 // delete all completed Journals
-router.delete('/:id', authMiddleware, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const user_id = req.params.id
         if (!mongoose.isValidObjectId(user_id)) {
