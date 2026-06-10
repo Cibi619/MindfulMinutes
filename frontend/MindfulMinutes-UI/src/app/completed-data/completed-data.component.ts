@@ -4,7 +4,7 @@ import { AppService } from '../shared/app.service';
 import { SidenavComponent } from '../shared/sidenav/sidenav.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { DashboardHeaderComponent } from '../shared/dashboard-header/dashboard-header.component';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 interface CompletedQuote {
   date_completed: string,
@@ -27,7 +27,7 @@ interface CompletedJournal {
 
 @Component({
   selector: 'app-completed-data',
-  imports: [SidenavComponent, DashboardHeaderComponent, NgClass, NgIf, NgFor],
+  imports: [SidenavComponent, DashboardHeaderComponent, NgClass],
   templateUrl: './completed-data.component.html',
   styleUrl: './completed-data.component.css'
 })

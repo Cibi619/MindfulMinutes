@@ -4,14 +4,14 @@ import { DashboardHeaderComponent } from '../shared/dashboard-header/dashboard-h
 import { DataService } from '../shared/data.service';
 import { AppService } from '../shared/app.service';
 import { PopupComponent } from '../shared/popup/popup.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SidenavComponent, DashboardHeaderComponent, NgIf, FormsModule, NgClass],
+  imports: [SidenavComponent, DashboardHeaderComponent, FormsModule, NgClass],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

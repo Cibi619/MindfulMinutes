@@ -1,135 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+  </head>
+  <body>
     <app-header></app-header>
     <section class="home">
-        <div class="content">
-            <h1 class="animate-left">Empower Your Mind,</h1>
-            <h4 class="animate-right">One Minute at a Time</h4>
-            <div class="buttons animate-up">
-                <a href="#register-block" class="btn" id="register-btn">Register</a>
-                <a href="#about" class="btn" id="learn-more">Learn More</a>
-            </div>
+      <div class="content">
+        <h1 class="animate-left">Empower Your Mind,</h1>
+        <h4 class="animate-right">One Minute at a Time</h4>
+        <div class="buttons animate-up">
+          <a href="#register-block" class="btn" id="register-btn">Register</a>
+          <a href="#about" class="btn" id="learn-more">Learn More</a>
         </div>
-        <div class="image animate-up">
-            <img src="assets/homepage-img1.png" alt="homepage-img">
-        </div>
+      </div>
+      <div class="image animate-up">
+        <img src="assets/homepage-img1.png" alt="homepage-img">
+      </div>
     </section>
     <section class="about" id="about" style="margin-top: 4vh;">
-        <div class="about-content animate-left">
-            <h3 style="text-align: center;">About Us</h3>
-            <p>At MindfulMinutes, we provide you with tools to regain your Mental and 
-                Spiritual Health. Join Hands with us on this Journey.</p>
-        </div>
-        <div class="about-image animate-up">
-            <img src="assets/homepage-img2.png" alt="homepage-img2">
-            <img src="assets/homepage-img3.png" alt="homepage-img3">
-        </div>
+      <div class="about-content animate-left">
+        <h3 style="text-align: center;">About Us</h3>
+        <p>At MindfulMinutes, we provide you with tools to regain your Mental and
+        Spiritual Health. Join Hands with us on this Journey.</p>
+      </div>
+      <div class="about-image animate-up">
+        <img src="assets/homepage-img2.png" alt="homepage-img2">
+        <img src="assets/homepage-img3.png" alt="homepage-img3">
+      </div>
     </section>
     <section class="get-started">
-        <div class="content">
-            <div class="content-inner-box">
-                <h3>Get Started</h3>
-                <p>Create Your Account Now</p>
-                <div *ngIf="!isLogin">
-                    <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
-                        <div class="form-field">
-                            <label for="name">Full Name</label>
-                            <input type="text" required minlength="3" #fullname="ngModel" name="name" 
-                                [class.invalid]="fullname.invalid && fullname.touched" 
-                                [(ngModel)]="signupUser.name">
-                            <div *ngIf="fullname.invalid && fullname.touched" class="error-message">
-                                <div *ngIf="fullname.errors?.['required']" class="error-message">Full name is required</div>
-                                <div *ngIf="fullname.errors?.['minlength']" class="error-message">Full name must be at least 3 characters</div>
-                            </div>
+      <div class="content">
+        <div class="content-inner-box">
+          <h3>Get Started</h3>
+          <p>Create Your Account Now</p>
+          @if (!isLogin) {
+            <div>
+              <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="form-field">
+                  <label for="name">Full Name</label>
+                  <input type="text" required minlength="3" #fullname="ngModel" name="name"
+                    [class.invalid]="fullname.invalid && fullname.touched"
+                    [(ngModel)]="signupUser.name">
+                    @if (fullname.invalid && fullname.touched) {
+                      <div class="error-message">
+                        @if (fullname.errors?.['required']) {
+                          <div class="error-message">Full name is required</div>
+                        }
+                        @if (fullname.errors?.['minlength']) {
+                          <div class="error-message">Full name must be at least 3 characters</div>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <div class="form-field">
+                    <label for="email">Email</label>
+                    <input type="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel" name="email"
+                      [class.invalid]="email.invalid && email.touched"
+                      [(ngModel)]="signupUser.email">
+                      @if (email.invalid && email.touched) {
+                        <div class="error-message">
+                          @if (email.errors?.['required']) {
+                            <div class="error-message">Email is required</div>
+                          }
+                          @if (email.errors?.['pattern']) {
+                            <div class="error-message">Please enter a valid Gmail address</div>
+                          }
                         </div>
-                        <div class="form-field">
-                            <label for="email">Email</label>
-                            <input type="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel" name="email" 
-                                [class.invalid]="email.invalid && email.touched" 
-                                [(ngModel)]="signupUser.email">
-                            <div *ngIf="email.invalid && email.touched" class="error-message">
-                                <div *ngIf="email.errors?.['required']" class="error-message">Email is required</div>
-                                <div *ngIf="email.errors?.['pattern']" class="error-message">Please enter a valid Gmail address</div>
-                            </div>
-                        </div>
-                        <div class="form-field">
-                            <label for="password">Password</label>
-                            <input type="password" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" #password="ngModel" name="password" 
-                                [class.invalid]="password.invalid && password.touched" 
-                                [(ngModel)]="signupUser.password">
-                            <div *ngIf="password.invalid && password.touched" class="error-message">
-                                <div *ngIf="password.errors?.['required']" class="error-message">Password is required</div>
-                                <div *ngIf="password.errors?.['pattern']" class="error-message">
-                                    Password must contain:
-                                    <ul>
-                                        <li>At least 8 characters</li>
-                                        <li>One uppercase letter</li>
-                                        <li>One number</li>
-                                        <li>One special character</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="register-btns" id="register-block">
-                            <button type="submit" class="signup-btn">Sign Up</button>
-                            <span style="display: block;">Already have an account? <button class="already-btn" href="" (click)="toggleForm()">Log In</button></span>
-                        </div>
-                        <ng-container *ngIf="signupError">
-                            <span class="error-message">Account already exists. Please Login</span>
-                        </ng-container>
+                      }
+                    </div>
+                    <div class="form-field">
+                      <label for="password">Password</label>
+                      <input type="password" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" #password="ngModel" name="password"
+                        [class.invalid]="password.invalid && password.touched"
+                        [(ngModel)]="signupUser.password">
+                        @if (password.invalid && password.touched) {
+                          <div class="error-message">
+                            @if (password.errors?.['required']) {
+                              <div class="error-message">Password is required</div>
+                            }
+                            @if (password.errors?.['pattern']) {
+                              <div class="error-message">
+                                Password must contain:
+                                <ul>
+                                  <li>At least 8 characters</li>
+                                  <li>One uppercase letter</li>
+                                  <li>One number</li>
+                                  <li>One special character</li>
+                                </ul>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                      <div class="register-btns" id="register-block">
+                        <button type="submit" class="signup-btn">Sign Up</button>
+                        <span style="display: block;">Already have an account? <button class="already-btn" href="" (click)="toggleForm()">Log In</button></span>
+                      </div>
+                      @if (signupError) {
+                        <span class="error-message">Account already exists. Please Login</span>
+                      }
                     </form>
-                </div>
-                <div *ngIf="isLogin">
+                  </div>
+                }
+                @if (isLogin) {
+                  <div>
                     <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-                        <div class="form-field">
-                            <label for="email">Email</label>
-                            <input type="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel" name="email" 
-                                [class.invalid]="email.invalid && email.touched" 
-                                [(ngModel)]="signupUser.email">
-                            <div *ngIf="email.invalid && email.touched" class="error-message">
-                                <div *ngIf="email.errors?.['required']">Email is required</div>
-                                <div *ngIf="email.errors?.['pattern']">Please enter a valid Gmail address</div>
+                      <div class="form-field">
+                        <label for="email">Email</label>
+                        <input type="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" #email="ngModel" name="email"
+                          [class.invalid]="email.invalid && email.touched"
+                          [(ngModel)]="signupUser.email">
+                          @if (email.invalid && email.touched) {
+                            <div class="error-message">
+                              @if (email.errors?.['required']) {
+                                <div>Email is required</div>
+                              }
+                              @if (email.errors?.['pattern']) {
+                                <div>Please enter a valid Gmail address</div>
+                              }
                             </div>
+                          }
                         </div>
                         <div class="form-field">
-                            <label for="password">Password</label>
-                            <input type="password" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" #password="ngModel" name="password" 
-                                [class.invalid]="password.invalid && password.touched" 
-                                [(ngModel)]="signupUser.password">
-                            <div *ngIf="password.invalid && password.touched" class="error-message">
-                                <div *ngIf="password.errors?.['required']">Password is required</div>
-                                <div *ngIf="password.errors?.['pattern']">
+                          <label for="password">Password</label>
+                          <input type="password" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" #password="ngModel" name="password"
+                            [class.invalid]="password.invalid && password.touched"
+                            [(ngModel)]="signupUser.password">
+                            @if (password.invalid && password.touched) {
+                              <div class="error-message">
+                                @if (password.errors?.['required']) {
+                                  <div>Password is required</div>
+                                }
+                                @if (password.errors?.['pattern']) {
+                                  <div>
                                     Password must contain:
                                     <ul>
-                                        <li>At least 8 characters</li>
-                                        <li>One uppercase letter</li>
-                                        <li>One number</li>
-                                        <li>One special character</li>
+                                      <li>At least 8 characters</li>
+                                      <li>One uppercase letter</li>
+                                      <li>One number</li>
+                                      <li>One special character</li>
                                     </ul>
-                                </div>
+                                  </div>
+                                }
+                              </div>
+                            }
+                          </div>
+                          @if (loginError) {
+                            <div class="error-message">
+                              Invalid email or password
                             </div>
-                        </div>
-                        <div *ngIf="loginError" class="error-message">
-                            Invalid email or password
-                        </div>
-                        <div class="register-btns">
+                          }
+                          <div class="register-btns">
                             <button type="submit" class="login-btn">Log In</button>
                             <span style="display: block;">Don't have an account? <button class="already-btn" (click)="toggleForm()">Sign Up</button></span>
-                        </div>
-                    </form>
+                          </div>
+                        </form>
+                      </div>
+                    }
+                  </div>
                 </div>
-            </div>
-        </div>
-        <div class="image">
-            <img src="assets/homepage_img4.png" alt="homepage_img4" style="width: 400px">
-        </div>
-    </section>
-</body>
-</html>
+                <div class="image">
+                  <img src="assets/homepage_img4.png" alt="homepage_img4" style="width: 400px">
+                </div>
+              </section>
+            </body>
+          </html>

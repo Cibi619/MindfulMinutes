@@ -1,32 +1,42 @@
 <div class="container">
-    <div class="sidenav-container" [ngClass]="{'open': isSidenavOpen}">
-        <button class="toggle-btn" (click)="toggleSidenav()">
-            <span class="menu-icon" *ngIf="!isSidenavOpen">☰</span>
-            <span class="close-icon" *ngIf="isSidenavOpen">×</span>
-        </button>
-        <app-sidenav></app-sidenav>
+  <div class="sidenav-container" [ngClass]="{'open': isSidenavOpen}">
+    <button class="toggle-btn" (click)="toggleSidenav()">
+      @if (!isSidenavOpen) {
+        <span class="menu-icon">☰</span>
+      }
+      @if (isSidenavOpen) {
+        <span class="close-icon">×</span>
+      }
+    </button>
+    <app-sidenav></app-sidenav>
+  </div>
+  <div class="main-content">
+    <app-dashboard-header></app-dashboard-header>
+    <div class="content">
+      @if (completedDataState == 'quotes') {
+        @for (quote of completedQuotesData; track quote) {
+          <div class="list-box">
+            <span class="day_count">{{quote.day_number.replace('Day-', '')}}</span>
+            <p class="title">{{quote.quote}}</p>
+          </div>
+        }
+      }
+      @if (completedDataState == 'exercises') {
+        @for (exercise of completedBreathingExercisesData; track exercise) {
+          <div class="list-box">
+            <span class="day_count">{{exercise.day_number}}</span>
+            <p class="title">{{exercise.exercise_title}}</p>
+          </div>
+        }
+      }
+      @if (completedDataState == 'journals') {
+        @for (journal of completedJournalsData; track journal) {
+          <div class="list-box">
+            <span class="day_count">{{journal.day_number}}</span>
+            <p class="title">{{journal.journal_content}}</p>
+          </div>
+        }
+      }
     </div>
-    <div class="main-content">
-        <app-dashboard-header></app-dashboard-header>
-        <div class="content">
-            <ng-container *ngIf="completedDataState == 'quotes'">
-                    <div class="list-box" *ngFor="let quote of completedQuotesData">
-                        <span class="day_count">{{quote.day_number.replace('Day-', '')}}</span>
-                        <p class="title">{{quote.quote}}</p>
-                    </div>
-            </ng-container>
-            <ng-container *ngIf="completedDataState == 'exercises'">
-                <div class="list-box" *ngFor="let exercise of completedBreathingExercisesData">
-                    <span class="day_count">{{exercise.day_number}}</span>
-                    <p class="title">{{exercise.exercise_title}}</p>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="completedDataState == 'journals'">
-                <div class="list-box" *ngFor="let journal of completedJournalsData">
-                    <span class="day_count">{{journal.day_number}}</span>
-                    <p class="title">{{journal.journal_content}}</p>
-                </div>
-            </ng-container>
-        </div>
-    </div>
+  </div>
 </div>
