@@ -7,10 +7,10 @@
 
 terraform {
   backend "s3" {
-    bucket         = "mindfulminutes-terraform-state-cibi"
+    bucket         = "mindfulminutes-cibi-terraform-state"
     key            = "terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "mindfulminutes-terraform-state-lock-cibi"
+    dynamodb_table = "mindfulminutes-cibi-terraform-state"
     encrypt        = true    
   }
 }

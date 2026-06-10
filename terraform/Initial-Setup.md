@@ -35,7 +35,7 @@ You won't see these charges on your bill - they're too small.
 ### Step 1: Create S3 Bucket for Terraform State
 
 ```bash
-aws s3 mb s3://mindfulminutes-terraform-state --region us-east-1
+aws s3 mb s3://mindfulminutes-cibi-terraform-state --region us-east-1
 ```
 
 **What this does:** Creates an S3 bucket named `mindfulminutes-terraform-state` in `us-east-1` region.
@@ -50,9 +50,7 @@ make_bucket: mindfulminutes-terraform-state
 ### Step 2: Enable Versioning on S3 Bucket
 
 ```bash
-aws s3api put-bucket-versioning \
-  --bucket mindfulminutes-terraform-state \
-  --versioning-configuration Status=Enabled
+aws s3api put-bucket-versioning --bucket mindfulminutes-terraform-state-cibi --versioning-configuration Status=Enabled
 ```
 
 **What this does:** Enables versioning so you can recover previous state file versions if needed.
@@ -64,7 +62,7 @@ aws s3api put-bucket-versioning \
 ### Step 3: Verify S3 Bucket
 
 ```bash
-aws s3 ls | grep mindfulminutes-terraform-state
+aws s3 ls | grep mindfulminutes-terraform-state-cibi
 ```
 
 **Expected output:**
@@ -77,12 +75,7 @@ aws s3 ls | grep mindfulminutes-terraform-state
 ### Step 4: Create DynamoDB Table for State Locking
 
 ```bash
-aws dynamodb create-table \
-  --table-name mindfulminutes-terraform-state-lock \
-  --attribute-definitions AttributeName=LockID,AttributeType=S \
-  --key-schema AttributeName=LockID,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST \
-  --region us-east-1
+aws dynamodb create-table --table-name mindfulminutes-terraform-state-lock-cibi --attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH --billing-mode PAY_PER_REQUEST --region us-east-1
 ```
 
 **What this does:** Creates a DynamoDB table that Terraform uses to lock the state file during operations.
@@ -103,9 +96,7 @@ aws dynamodb create-table \
 ### Step 5: Wait for DynamoDB Table to be Active
 
 ```bash
-aws dynamodb wait table-exists \
-  --table-name mindfulminutes-terraform-state-lock \
-  --region us-east-1
+aws dynamodb wait table-exists --table-name mindfulminutes-terraform-state-lock-cibi --region us-east-1
 ```
 
 **What this does:** Waits until the table is fully created and ready.
@@ -117,10 +108,7 @@ aws dynamodb wait table-exists \
 ### Step 6: Verify DynamoDB Table
 
 ```bash
-aws dynamodb describe-table \
-  --table-name mindfulminutes-terraform-state-lock \
-  --region us-east-1 \
-  --query 'Table.TableStatus'
+aws dynamodb describe-table --table-name mindfulminutes-terraform-state-lock-cibi --region us-east-1 --query 'Table.TableStatus'
 ```
 
 **Expected output:**
